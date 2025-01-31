@@ -33,14 +33,14 @@ async def create_product(session:AsyncSession, product_in:ProductCreate)-> Produ
 
 
 async def update_product(
-        session: AsyncSession,
-        product: Product,
-        product_update: ProductUpdate | ProductUpdatePartial,
-        partial: bool = False,
+    session: AsyncSession,
+    product: Product,
+    product_update: ProductUpdate | ProductUpdatePartial,
+    partial: bool = False,
 ) -> Product:
     for name, value in product_update.model_dump(exclude_unset=partial).items():
         setattr(product, name, value)
-    await session.close()
+    await session.commit()
     return product
 
 
